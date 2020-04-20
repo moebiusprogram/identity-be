@@ -28,6 +28,8 @@ const server = require('http').createServer(app);
 mongoose
   .connect(config.db, {
           useNewUrlParser: true,
+          user: "kyc-user",
+          pass: "%%Dzez51Q6",
           useUnifiedTopology: true,
           socketTimeoutMS: 300000,
           keepAlive: 3000000, 
@@ -66,6 +68,7 @@ const Router = require('./routes/app');
 app.use('/api/v1', Router);
 app.use( express.static(path.join(__dirname, '../public')) )
 app.get('/admin/*', (req, res) => res.sendFile(path.join(__dirname, '../public/admin/index.html')))
+app.get('/verify/*', (req, res) => res.sendFile(path.join(__dirname, '../public/verify/index.html')))
 // io server
 const io = require('socket.io')(server);
 require('./services/socket.service')(io);
