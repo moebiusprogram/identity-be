@@ -28,8 +28,8 @@ const server = require('http').createServer(app);
 mongoose
   .connect(config.db, {
           useNewUrlParser: true,
-          user: "kyc-user",
-          pass: "%%Dzez51Q6",
+          //user: "kyc-user",
+          //pass: "%%Dzez51Q6",
           useUnifiedTopology: true,
           socketTimeoutMS: 300000,
           keepAlive: 3000000, 
