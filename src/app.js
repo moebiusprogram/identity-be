@@ -1,9 +1,11 @@
 require('dotenv').config();
+const path  = require('path')
 const fs = require('fs');
 const join = require('path').join;
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
+const cors      = require('cors')
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -12,17 +14,25 @@ const passport = require('passport');
 const Grid = require('gridfs-stream');
 Grid.mongo = mongoose.mongo;
 
+
 const config = require('./config');
 const dbInitialize = require('./services/dbInitialize');
 // config
 app.set('config', config);
 const port = process.env.PORT || config.port;
 
+app.use(cors())
 // server
 const server = require('http').createServer(app);
 
 mongoose
-  .connect(config.db, { useNewUrlParser: true })
+  .connect(config.db, {
+          useNewUrlParser: true,
+          useUnifiedTopology: true,
+          socketTimeoutMS: 300000,
+          keepAlive: 3000000, 
+          connectTimeoutMS: 300000
+ })
   .then(conn => {
     // GridFS setting
     const gfs = Grid(conn.connection.db);
@@ -53,8 +63,9 @@ app.use(passport.session());
 
 // routing
 const Router = require('./routes/app');
-app.use('/', Router);
-
+app.use('/api/v1', Router);
+app.use( express.static(path.join(__dirname, '../public')) )
+app.get('/admin/*', (req, res) => res.sendFile(path.join(__dirname, '../public/admin/index.html')))
 // io server
 const io = require('socket.io')(server);
 require('./services/socket.service')(io);
