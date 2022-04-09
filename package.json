@@ -48,7 +48,7 @@
     "mailcomposer": "^4.0.2",
     "mailgun-js": "^0.18.0",
     "mocha": "^5.2.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mongoose": "^5.1.2",
     "mpath": ">=0.5.1",
     "nocache": "^2.0.0",
